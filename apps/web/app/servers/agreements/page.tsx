@@ -10,7 +10,7 @@ export default function AgreementsPage() {
           <div className="eyebrow">GÜVENİLİR SUNUCULAR</div>
           <h1>Anlaşmalı Sunucular</h1>
           <div className="directory-tabs" aria-label="Sunucu listesi türleri">
-            <Link className="directory-tab" href="/servers">Türk Sunucuları</Link>
+            <Link className="directory-tab" href="/servers">Sunucular</Link>
             <Link className="directory-tab active" href="/servers/agreements">Anlaşmalı Sunucular</Link>
           </div>
           <div className="empty-state directory-empty">

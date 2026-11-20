@@ -33,7 +33,8 @@ function getDatabase() {
       email TEXT NOT NULL COLLATE NOCASE UNIQUE,
       username TEXT NOT NULL COLLATE NOCASE UNIQUE,
       password_hash TEXT NOT NULL,
-      created_at TEXT NOT NULL
+      created_at TEXT NOT NULL,
+      preferred_language TEXT NOT NULL DEFAULT 'tr'
     );
     CREATE TABLE IF NOT EXISTS sessions (
       token_hash TEXT PRIMARY KEY,
@@ -50,6 +51,11 @@ function getDatabase() {
   const userColumns = database
     .prepare('PRAGMA table_info(users)')
     .all() as Array<{ name: string }>;
+  if (!userColumns.some((column) => column.name === 'preferred_language')) {
+    database.exec(
+      "ALTER TABLE users ADD COLUMN preferred_language TEXT NOT NULL DEFAULT 'tr'",
+    );
+  }
   if (!userColumns.some((column) => column.name === 'discord_id')) {
     database.exec('ALTER TABLE users ADD COLUMN discord_id TEXT');
   }
@@ -67,10 +73,17 @@ export function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+export type SupportedLanguage = 'tr' | 'en' | 'de';
+
+export function isSupportedLanguage(value: unknown): value is SupportedLanguage {
+  return value === 'tr' || value === 'en' || value === 'de';
+}
+
 export function validateRegistration(input: {
   username: string;
   email: string;
   password: string;
+  language?: string;
 }) {
   if (!/^[\p{L}\p{N}_-]{3,32}$/u.test(input.username)) {
     return 'Kullanıcı adı 3-32 karakter olmalı; harf, rakam, _ veya - içerebilir.';
@@ -83,6 +96,9 @@ export function validateRegistration(input: {
   }
   if (input.password.length < 10 || input.password.length > 128) {
     return 'Parola 10-128 karakter arasında olmalı.';
+  }
+  if (input.language !== undefined && !isSupportedLanguage(input.language)) {
+    return 'Desteklenmeyen site dili.';
   }
   return null;
 }
@@ -113,15 +129,23 @@ export async function registerUser(input: {
   username: string;
   email: string;
   password: string;
+  language?: SupportedLanguage;
 }) {
   const passwordHash = await hashPassword(input.password);
   const id = randomBytes(16).toString('hex');
   try {
     getDatabase()
       .prepare(
-        'INSERT INTO users (id, email, username, password_hash, created_at) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO users (id, email, username, password_hash, created_at, preferred_language) VALUES (?, ?, ?, ?, ?, ?)',
       )
-      .run(id, normalizeEmail(input.email), input.username.trim(), passwordHash, new Date().toISOString());
+      .run(
+        id,
+        normalizeEmail(input.email),
+        input.username.trim(),
+        passwordHash,
+        new Date().toISOString(),
+        input.language ?? 'tr',
+      );
   } catch (error) {
     if (
       error instanceof Error &&

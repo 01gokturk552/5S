@@ -53,6 +53,12 @@ export function AuthForm({ mode }: { mode: 'register' | 'login' }) {
             required
             placeholder="Benzersiz bir kullanıcı adı seçin"
           />
+          <label htmlFor="language">Site dili</label>
+          <select id="language" name="language" defaultValue="tr">
+            <option value="tr">Türkçe</option>
+            <option value="en">İngilizce</option>
+            <option value="de">Almanca</option>
+          </select>
         </>
       )}
       <label htmlFor="email">E-posta adresi</label>

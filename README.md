@@ -1,8 +1,8 @@
 # 5S
 
-FiveM sunucularını Cfx'in izinli ve herkese açık veri kaynaklarıyla keşfetmek ve
-sunucu sahipleri için doğrulanmış yönetim özellikleri sunmak üzere tasarlanan
-5S, FiveM sunucuları için bağımsız bir sunucu istihbarat platformudur.
+5S, Cfx'in izinli ve herkese açık veri kaynaklarıyla FiveM sunucularını
+keşfetmek ve sunucu sahiplerine doğrulanmış yönetim özellikleri sunmak için
+tasarlanmış bağımsız bir sunucu istihbarat platformudur.
 
 ## Durum
 
@@ -37,6 +37,17 @@ docker compose up --build
 API: `http://localhost:4000/api/v1`
 Swagger: `http://localhost:4000/docs`
 Web: `http://localhost:3000`
+
+## Vercel dağıtımı
+
+GitHub deposunu Vercel'e aktarırken proje kök dizinini `apps/web` olarak
+seçin. Bu dizindeki `vercel.json`, Next.js framework'ünü ve build komutunu
+tanımlar.
+
+Vercel proje ayarlarında kullanılan OAuth ve rol değişkenlerini ayrıca
+tanımlayın. Kimlik doğrulama verileri şu anda SQLite dosyasında tutuluyor;
+Vercel'in sunucusuz dosya sistemi kalıcı olmadığı için üretimde kayıt ve giriş
+özelliğini açmadan önce kalıcı bir veritabanına geçiş yapılmalıdır.
 
 ## Discord hesabı bağlantısı
 

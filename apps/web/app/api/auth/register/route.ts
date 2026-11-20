@@ -3,6 +3,7 @@ import {
   createSession,
   registerUser,
   sessionCookieName,
+  isSupportedLanguage,
   validateRegistration,
 } from '../../../lib/auth-store';
 
@@ -12,6 +13,7 @@ type RegistrationBody = {
   username?: unknown;
   email?: unknown;
   password?: unknown;
+  language?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -30,10 +32,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Tüm alanları doldurun.' }, { status: 400 });
   }
 
+  const language = body.language === undefined ? 'tr' : body.language;
+  if (!isSupportedLanguage(language)) {
+    return NextResponse.json({ error: 'Desteklenmeyen site dili.' }, { status: 400 });
+  }
+
   const input = {
     username: body.username.trim(),
     email: body.email.trim(),
     password: body.password,
+    language,
   };
   const validationError = validateRegistration(input);
   if (validationError) {

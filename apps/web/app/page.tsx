@@ -51,7 +51,7 @@ export default async function HomePage() {
           <div className="section-heading">
             <div>
               <div className="eyebrow">KEŞFET</div>
-              <h2>Türk FiveM sunucuları</h2>
+              <h2>Sunucuları keşfet</h2>
             </div>
             <Link className="outline-button" href="/servers">Tüm sunucular</Link>
           </div>

@@ -15,9 +15,9 @@ export default async function ServersPage() {
       <main>
         <section className="section server-directory">
           <div className="eyebrow">SUNUCU DİZİNİ</div>
-          <h1>Tüm Türk FiveM sunucularını keşfet</h1>
+          <h1>Tüm sunucuları keşfet</h1>
           <div className="directory-tabs" aria-label="Sunucu listesi türleri">
-            <Link className="directory-tab active" href="/servers">Türk Sunucuları</Link>
+            <Link className="directory-tab active" href="/servers">Sunucular</Link>
             <Link className="directory-tab" href="/servers/agreements">Anlaşmalı Sunucular</Link>
           </div>
           <ServerDirectory servers={servers} />
