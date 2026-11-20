@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: fivemyb
+      POSTGRES_USER: fivemyb
+      POSTGRES_PASSWORD: fivemyb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://fivemyb:fivemyb@postgres:5432/fivemyb
+      REDIS_URL: redis://redis:6379
+      AUTH_JWT_SECRET: ${AUTH_JWT_SECRET:-change-me}
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:

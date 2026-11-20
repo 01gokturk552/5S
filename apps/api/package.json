@@ -1,0 +1,32 @@
+{
+  "name": "@fivemyb/api",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11",
+    "@nestjs/core": "^11",
+    "@nestjs/platform-express": "^11",
+    "@nestjs/swagger": "^11",
+    "@nestjs/jwt": "^11",
+    "@prisma/client": "^6",
+    "argon2": "^0.44",
+    "bullmq": "^5",
+    "ioredis": "^5",
+    "reflect-metadata": "^0.2",
+    "rxjs": "^7",
+    "zod": "^4"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11",
+    "@types/jest": "^29",
+    "@types/node": "^22",
+    "jest": "^29",
+    "ts-jest": "^29",
+    "typescript": "^5"
+  }
+}

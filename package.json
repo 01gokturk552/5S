@@ -1,0 +1,19 @@
+{
+  "name": "five-server-intelligence",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "prisma:generate": "npm run prisma:generate --workspace @fivemyb/database",
+    "prisma:migrate": "npm run prisma:migrate --workspace @fivemyb/database"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
