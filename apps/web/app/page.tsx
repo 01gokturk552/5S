@@ -2,9 +2,15 @@ import Link from 'next/link';
 import { SiteHeader } from './components/site-header';
 import { ServerDirectory } from './components/server-directory';
 import { getCfxTurkishServers } from './lib/cfx';
+import { getApiHealthStatus } from './lib/api-health';
+
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const servers = await getCfxTurkishServers();
+  const [servers, apiStatus] = await Promise.all([
+    getCfxTurkishServers(),
+    getApiHealthStatus(),
+  ]);
   return (
     <>
       <SiteHeader />
@@ -30,8 +36,8 @@ export default async function HomePage() {
 
         <section className="stats-strip" aria-label="Platform istatistikleri">
           <div>
-            <span className="stat-value">--</span>
-            <span className="stat-label">Kayıtlı sunucu</span>
+            <span className="stat-value">{apiStatus === 'ok' ? 'OK' : '--'}</span>
+            <span className="stat-label">API durumu</span>
           </div>
           <div>
             <span className="stat-value">--</span>

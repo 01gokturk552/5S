@@ -38,11 +38,17 @@ API: `http://localhost:4000/api/v1`
 Swagger: `http://localhost:4000/docs`
 Web: `http://localhost:3000`
 
+Web uygulamasının API sağlık göstergesi için `apps/web/.env.local` dosyasında
+`API_SERVICE_URL="http://localhost:4000/"` tanımlayın.
+
 ## Vercel dağıtımı
 
-GitHub deposunu Vercel'e aktarırken proje kök dizinini `apps/web` olarak
-seçin. Bu dizindeki `vercel.json`, Next.js framework'ünü ve build komutunu
-tanımlar.
+GitHub deposunu Vercel'e tek proje olarak aktarın ve proje kök dizinini depo
+kökünde bırakın. Kök dizindeki `vercel.json`, NestJS API ve Next.js web
+uygulamasını ayrı servisler olarak tanımlar; `/api/auth/*` isteklerini web
+uygulamasına, diğer `/api/*` ve `/docs` isteklerini API'ye, kalan yolları web
+uygulamasına yönlendirir. Web servisindeki `API_SERVICE_URL` binding'i API'nin
+dağıtıma özel dahili adresini çalışma zamanında sağlar.
 
 Vercel proje ayarlarında kullanılan OAuth ve rol değişkenlerini ayrıca
 tanımlayın. Kimlik doğrulama verileri şu anda SQLite dosyasında tutuluyor;
